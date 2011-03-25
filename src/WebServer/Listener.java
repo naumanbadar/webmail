@@ -3,6 +3,7 @@ package WebServer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.regex.Pattern;
@@ -17,12 +18,12 @@ public class Listener {
 
 	public String start() {
 		try {
-			///TODO get log level from main
-			
+
 			// char charb[]= new char[2000];
 			serverSocket = new ServerSocket(8081);
 			Socket clientSocket = serverSocket.accept();
 			BufferedReader inputBufferReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			PrintWriter outputPrintWriter = new PrintWriter(clientSocket.getOutputStream());
 			StringBuilder inputStringBuilder = new StringBuilder();
 			// while
 			// (inputStringBuilder.append(iputBufferReader.readLine()).length()<2000)
@@ -36,6 +37,7 @@ public class Listener {
 			
 			if (Pattern.matches("^GET.*", requestHeader)) {
 				log.info("got a Get request");
+				GetHandler.handle(inputBufferReader,outputPrintWriter);
 				///TODO handle get
 			}
 
