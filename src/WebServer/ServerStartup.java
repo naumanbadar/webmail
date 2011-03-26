@@ -12,6 +12,7 @@ public class ServerStartup {
 		
 		Listener listener = new Listener();
 		listener.start();
+//System.out.println(System.getProperty("java.class.path"));
 
 //System.out.println(	Pattern.matches("^GET.*", "GET  GsdsdffsfdfsET"));
 	}

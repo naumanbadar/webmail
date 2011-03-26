@@ -21,10 +21,10 @@ public class Listener {
 
 			// char charb[]= new char[2000];
 			serverSocket = new ServerSocket(8081);
+			
 			Socket clientSocket = serverSocket.accept();
 			BufferedReader inputBufferReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			PrintWriter outputPrintWriter = new PrintWriter(clientSocket.getOutputStream());
-			StringBuilder inputStringBuilder = new StringBuilder();
 			// while
 			// (inputStringBuilder.append(iputBufferReader.readLine()).length()<2000)
 			// {
@@ -35,8 +35,18 @@ public class Listener {
 			// }
 			requestHeader = inputBufferReader.readLine();
 			
-			if (Pattern.matches("^GET.*", requestHeader)) {
-				log.info("got a Get request");
+			// this is just to get all the lines after header untill an empty line is not received.
+			StringBuilder remainingHeader = new StringBuilder(requestHeader+"\r\n");
+			String readline;
+			while ((readline=inputBufferReader.readLine())!="") { // to flush all the lines
+				if (readline.isEmpty()) //when empty line is encountered.
+					break;
+				remainingHeader.append(readline+"\r\n");
+			}
+			
+			
+			if (Pattern.matches("^GET.*", requestHeader)||Pattern.matches("^GET /index.html.*", requestHeader)) {
+				log.info("got a Get index.html request");
 				GetHandler.handle(inputBufferReader,outputPrintWriter);
 				///TODO handle get
 			}
