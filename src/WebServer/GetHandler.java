@@ -1,6 +1,10 @@
 package WebServer;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 public class GetHandler {
@@ -11,12 +15,24 @@ public class GetHandler {
 		
 		
 		
-		outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY><H1>Found the file, but dont wanna show you</H1></BODY></HTML>");
+//		outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY><H1>Found the file, but dont wanna show you</H1></BODY></HTML>");
 		
-		
-		
-		
-		outputPrintWriter.flush();
+		byte[] indexFileBuffer = new byte[(int) new File("/home/naumanbadar/Courses/nsiba/workspace/WebMail/src/index.html").length()];
+		FileInputStream f;
+		String indexFileString;
+		try {
+			f = new FileInputStream("/home/naumanbadar/Courses/nsiba/workspace/WebMail/src/index.html");
+			f.read(indexFileBuffer);
+			indexFileString = new String(indexFileBuffer);
+			f.close();
+			outputPrintWriter.print(indexFileString);
+			outputPrintWriter.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		
 	}
 
