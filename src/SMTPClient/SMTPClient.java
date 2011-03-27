@@ -26,56 +26,80 @@ public class SMTPClient implements ISMTPClient {
 		         BufferedReader r = new BufferedReader(new InputStreamReader(
 		            c.getInputStream()));
 		         String m = null;
-		         String helo = "HELO gmani.mail.ik2213.lab";
-		         w.write(helo,0,helo.length());
+		         
+		         //for the delay
+		         
+		         for (int i = 0; i < delay; i++)
+		         {
+		          try
+		              {
+		              Thread.sleep(1000);        
+		              }
+		           catch (InterruptedException ie)
+		              {
+		            System.out.println(ie.getMessage());
+		              }
+		         }
+		         
+		         //For Sending the HELO Message
+		         String hostName = " gmani.mail.ik2213.lab";
+		         
+		              
+		         w.write("EHLO"+hostName);
+		         w.newLine();
+		         int i =8;
+		         do
+		         {
+		         		         w.flush();
+		         m=r.readLine(); out.println(m);
+		         i--;
+		         }while(i!=0);
+		         ;
+		         //For Sending The From Address
+		         String from = "<gmani@mail.ik2213.lab>";
+		         String mailfrom = "MAIL FROM:" + from;
+		         w.write(mailfrom);
 		         w.newLine();
 		         w.flush();
-		         m=r.readLine();
-		         out.println(m);
-		         String from = "MAIL FROM: <gmani@mail.ik2213.lab>";
-		         w.write(from,0,from.length());
+		        m=r.readLine();out.println(m);
+		       
+		         //For Sending The TO Address
+		         String to = " <gmani@mail.ik2213.lab>";
+		         w.write("RCPT TO: "+to);
 		         w.newLine();
 		         w.flush();
-		         m=r.readLine();
-		         m=r.readLine();
-		         out.println(m);
-		         String to = "RCPT TO: <gmani@mail.ik2213.lab>";
-		         w.write(to,0,to.length());
-		         w.newLine();
-		         w.flush();
-		         m=r.readLine();
-		         out.println(m);
-		         //w.write("DATA",0,4);
-		        // w.write("\r\n");
-		         String data123 = "hai how are you.";
+		         m=r.readLine();out.println(m);
+		        
+		         
+		         String message = "hai how are you.";
+		         String subject= "hello";
 		         
 		         w.write("DATA");
 		         w.newLine();
 		         w.flush();
-		         String m1=r.readLine();
-		         out.println(m1);
-		      // send header
-		         w.write("From: " + "gmani@mail.ik2213.lab" + "\r\n");
-		         w.write("To: " + "gmani@mail.ik2213.lab" + "\r\n");
-		         w.write("Subject: " + "hello" + "\r\n");
+		         String m1=r.readLine();out.println(m1);
+		     
+		         // send header As a part of Message
+		         w.write("From: " + from + "\r\n");
+		         w.write("To: " + to + "\r\n");
+		         w.write("Subject: " + subject + "\r\n");
 		         w.write("\r\n"); // end header
-		         // send message text
-		        // String data1 = msg2data(data123);
-		         
-		         w.write(data123 + "\r\n");
+		        
+		         // The Body of the mail		         
+		         w.write(message + "\r\n");
 
 		         // end data with <CR/LF>.<CR/LF>
 		         w.write("\r\n.\r\n");
 		         w.flush();
-		         //out.println(data123+ "\r\n");
-		         m=r.readLine();
-		         out.println(m);
+		         
+		         m=r.readLine(); out.println(m);
+		        // To close the SMTP connection
 		         String quit = "QUIT";
 		         w.write(quit);
 		         w.newLine();
 		         w.flush();
-		         m=r.readLine();
-		         out.println(m);
+		         
+		         //m=r.readLine();out.println(m);
 		         
 		        
 		         w.close();
