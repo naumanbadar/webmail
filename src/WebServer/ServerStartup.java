@@ -1,7 +1,5 @@
 package WebServer;
 
-import java.io.Console;
-import java.util.regex.Pattern;
 
 public class ServerStartup {
 
