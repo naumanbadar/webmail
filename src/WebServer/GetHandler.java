@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
 
 public class GetHandler {
 
@@ -17,11 +18,16 @@ public class GetHandler {
 		
 //		outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY><H1>Found the file, but dont wanna show you</H1></BODY></HTML>");
 		
-		byte[] indexFileBuffer = new byte[(int) new File("/home/naumanbadar/Courses/nsiba/workspace/WebMail/src/index.html").length()];
+		try {
+
+		Properties properties = new Properties();
+		properties.load(new FileInputStream("Webmail.properties"));
+		String indexFilePath = properties.getProperty("index");
+		
+		byte[] indexFileBuffer = new byte[(int) new File(indexFilePath).length()];
 		FileInputStream f;
 		String indexFileString;
-		try {
-			f = new FileInputStream("/home/naumanbadar/Courses/nsiba/workspace/WebMail/src/index.html");
+			f = new FileInputStream(indexFilePath);
 			f.read(indexFileBuffer);
 			indexFileString = new String(indexFileBuffer);
 			f.close();
