@@ -21,7 +21,9 @@ public class GetHandler {
 		try {
 
 		Properties properties = new Properties();
-		properties.load(new FileInputStream("Webmail.properties"));
+		FileInputStream fis = new FileInputStream("Webmail.properties");
+		properties.load(fis);
+		fis.close();
 		String indexFilePath = properties.getProperty("index");
 		
 		byte[] indexFileBuffer = new byte[(int) new File(indexFilePath).length()];
