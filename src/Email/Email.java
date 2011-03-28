@@ -1,5 +1,10 @@
 package Email;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.concurrent.Delayed;
+
 public class Email {
 
 	private String _from;
@@ -8,6 +13,76 @@ public class Email {
 	private String _smtpServer;
 	private int _delay;
 	private String _message;
+
+	private Calendar _submissionTime;
+	private Calendar _deliveryTime;
+	private String _deliveryStatus;
+
+	
+	
+	
+	public Email(String _from, String _to, String _subject, String _smtpServer, int _delay, String _message) {
+		super();
+		this._from = _from;
+		this._to = _to;
+		this._subject = _subject;
+		this._smtpServer = _smtpServer;
+		this._delay = _delay;
+		this._message = _message;
+		_submissionTime = Calendar.getInstance();
+		_deliveryTime.add(Calendar.SECOND, _delay);
+	}
+
+	public Email() {
+
+		_submissionTime = Calendar.getInstance();
+
+	}
+
+	/**
+	 * @return the _submissionTime
+	 */
+	public Calendar get_submissionTime() {
+		return _submissionTime;
+	}
+
+	/**
+	 * @param _submissionTime
+	 *            the _submissionTime to set
+	 */
+	public void set_submissionTime(Calendar _submissionTime) {
+		this._submissionTime = _submissionTime;
+	}
+
+	/**
+	 * @return the _deliveryTime
+	 */
+	public Calendar get_deliveryTime() {
+		return _deliveryTime;
+	}
+
+	/**
+	 * @param _deliveryTime
+	 *            the _deliveryTime to set
+	 */
+	public void set_deliveryTime(Calendar _deliveryTime) {
+		this._deliveryTime = _deliveryTime;
+	}
+
+	/**
+	 * @return the _deliveryStatus
+	 */
+	public String get_deliveryStatus() {
+		return _deliveryStatus;
+	}
+
+	/**
+	 * @param _deliveryStatus
+	 *            the _deliveryStatus to set
+	 */
+	public void set_deliveryStatus(String _deliveryStatus) {
+		this._deliveryStatus = _deliveryStatus;
+	}
 
 	/**
 	 * @return the _from
@@ -101,5 +176,15 @@ public class Email {
 
 	public String toString() {
 		return "FROM:" + _from + " " + "TO:" + _to + " " + "SUBJECT:" + _subject + " " + "SMTP_SERVER:" + _smtpServer + " " + "DELAY:" + _delay + " " + "MESSAGE:" + _message;
+	}
+
+	public String getSubmissionTimeString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:ss");
+		return sdf.format(_submissionTime.getTime());
+	}
+
+	public String getDeliveryTimeString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:ss");
+		return sdf.format(_deliveryTime.getTime());
 	}
 }
