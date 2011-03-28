@@ -12,12 +12,15 @@ import Email.Email;
 import Email.EmailStatus;
 import Interfaces.ISMTPClient;
 
-public class SMTPClient implements ISMTPClient {
-
-	@Override
-	public void sendEmail(Email email, int delay) {
+public class SMTPClient{
+	 String m = null;
+	
+	public String sendEmail(Email email) {
+		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		      PrintStream out = System.out;   	
+		      
+		PrintStream out = System.out;
+		      
 		      try {
 		         Socket c = new Socket("mail.ik2213.lab",25);
 		         
@@ -25,11 +28,10 @@ public class SMTPClient implements ISMTPClient {
 		            c.getOutputStream()));
 		         BufferedReader r = new BufferedReader(new InputStreamReader(
 		            c.getInputStream()));
-		         String m = null;
+		        
 		         
 		         //for the delay
-		         
-		         for (int i = 0; i < delay; i++)
+		         /*for (int i = 0; i < delay; i++)
 		         {
 		          try
 		              {
@@ -39,40 +41,58 @@ public class SMTPClient implements ISMTPClient {
 		              {
 		            System.out.println(ie.getMessage());
 		              }
-		         }
+		         }*/
 		         
 		         //For Sending the HELO Message
-		         String hostName = " gmani.mail.ik2213.lab";
+		         String hostName = email.get_smtpServer();
+		         //String hostName = " gmani.mail.ik2213.lab";
 		         
 		              
-		         w.write("EHLO"+hostName);
+		         w.write("EHLO "+hostName);
 		         w.newLine();
 		         int i =8;
 		         do
 		         {
-		         		         w.flush();
+		         w.flush();
 		         m=r.readLine(); out.println(m);
 		         i--;
 		         }while(i!=0);
 		         ;
 		         //For Sending The From Address
-		         String from = "<gmani@mail.ik2213.lab>";
-		         String mailfrom = "MAIL FROM:" + from;
+		         String from = email.get_from();
+		         //String from = "<gmani@mail.ik2213.lab>";
+		         out.println(from);
+		         String mailfrom = "MAIL FROM: " + from +" BODY=8BITMIME";
 		         w.write(mailfrom);
 		         w.newLine();
 		         w.flush();
 		        m=r.readLine();out.println(m);
 		       
+		        //for checking the correctness of from address
+		        if(!m.equals("250 2.1.0 Ok"))
+		       {
+		        	out.println("It comes inside");
+		        	return m;
+		       }
 		         //For Sending The TO Address
-		         String to = " <gmani@mail.ik2213.lab>";
+		         
+		        String to = email.get_to();
+		        //String to = " <gmani@mail.ik2213.lab>";
 		         w.write("RCPT TO: "+to);
 		         w.newLine();
 		         w.flush();
 		         m=r.readLine();out.println(m);
-		        
+		       //for checking the correctness of from address
+			        if(!m.equals("250 2.1.5 Ok"))
+			       {
+			        	out.println("Good TOO");
+			        	return m;
+			       }
 		         
-		         String message = "hai how are you.";
-		         String subject= "hello";
+			     String message = email.get_message();
+			     //String message = "hai how are you.";
+			     String subject= email.get_subject();	
+			     //String subject= "hello";
 		         
 		         w.write("DATA");
 		         w.newLine();
@@ -93,7 +113,12 @@ public class SMTPClient implements ISMTPClient {
 		         w.flush();
 		         
 		         m=r.readLine(); out.println(m);
-		        // To close the SMTP connection
+		         if(!m.regionMatches(0, "2.0.0 Ok: queued as",0,10))
+			       {
+			        	//out.println("Good MESSAGE");
+			        	return m;
+			       }
+		         // To close the SMTP connection
 		         String quit = "QUIT";
 		         w.write(quit);
 		         w.newLine();
@@ -105,16 +130,14 @@ public class SMTPClient implements ISMTPClient {
 		         w.close();
 		         r.close();
 		         c.close();
+		         
 		      } catch (IOException e) {
 		         System.err.println(e.toString());
 		      }// TODO Auto-generated method stub
+			return m;
 
 	}
 
-	@Override
-	public Iterable<EmailStatus> getStatus() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }
