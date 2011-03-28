@@ -18,15 +18,17 @@ public class Email {
 	private Calendar _deliveryTime;
 	private String _deliveryStatus;
 
-	
-	
-	
-	public Email(String _from, String _to, String _subject, String _smtpServer, int _delay, String _message) {
+	public Email(String _from, String _to, String _subject, String smtpServer, int _delay, String _message) {
 		super();
 		this._from = _from;
 		this._to = _to;
 		this._subject = _subject;
-		this._smtpServer = _smtpServer;
+		if (smtpServer.isEmpty()) {
+			this._smtpServer = "smtp.ik2213.lab";
+		} else {
+			this._smtpServer = smtpServer;
+		}
+
 		this._delay = _delay;
 		this._message = _message;
 		_submissionTime = Calendar.getInstance();
