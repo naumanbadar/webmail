@@ -3,8 +3,11 @@ package WebServer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 
 import org.apache.log4j.Logger;
+
+import Email.Email;
 
 public class PostHandler {
 
@@ -20,9 +23,21 @@ public class PostHandler {
 		try {
 			inputBufferReader.read(characterBuffer,0,contentLenght);
 			String postBody = new String(characterBuffer);
-			log.info(postBody);
+//			log.info("POST HEADER "+completeHeader);
+//			log.info("POST BODY "+postBody);
+			
+			String fields[] = postBody.split("\\&?\\w*=");
+			Email email = new Email();
+			
+			email.set_from(URLDecoder.decode(fields[1],"UTF-8"));
+			email.set_to(URLDecoder.decode(fields[2],"UTF-8"));
+			email.set_subject(URLDecoder.decode(fields[3],"UTF-8"));
+			email.set_smtpServer(URLDecoder.decode(fields[4],"UTF-8"));
+			email.set_delay(Integer.parseInt(fields[5]));
+			email.set_message(URLDecoder.decode(fields[6],"UTF-8"));
 			
 			
+			log.info("email posted: "+email.toString());
 			
 			outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
 			outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY><H1>Pay your bill.</H1></BODY></HTML>");

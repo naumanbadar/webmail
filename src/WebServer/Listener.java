@@ -51,7 +51,7 @@ public class Listener {
 
 			if (Pattern.matches("^GET.*", requestHeader) || Pattern.matches("^GET /index.html.*", requestHeader)) {
 //				log.info("got a Get index.html request");
-				GetIndexHandler.handle(inputBufferReader, outputPrintWriter);
+				GetIndexHandler.handle(inputBufferReader, outputPrintWriter, completeHeader);
 			}
 
 			else if (Pattern.matches("^POST.*", requestHeader)) {
@@ -61,6 +61,7 @@ public class Listener {
 
 			// ipbuff.read(charb);
 			outputPrintWriter.close();
+			inputBufferReader.close();
 			serverSocket.close();
 
 		} catch (IOException e) {

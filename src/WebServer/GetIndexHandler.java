@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 public class GetIndexHandler {
 	private final static Logger log = Logger.getLogger(GetIndexHandler.class.getName());
 
-	public static void handle(BufferedReader inputBufferReader, PrintWriter outputPrintWriter) {
+	public static void handle(BufferedReader inputBufferReader, PrintWriter outputPrintWriter, StringBuilder completeHeader) {
 		// outputPrintWriter.println("HTTP/1.1 200 OK\r\nServer: Apache-Coyote/1.1\r\nAccept-Ranges: bytes\r\nETag: W/\"765-1300876173000\"\r\nLast-Modified: Wed, 23 Mar 2011 10:29:33 GMT\r\nContent-Type: text/html\r\nContent-Length: 765\r\nDate: Wed, 23 Mar 2011 12:51:29 GMT\r\n");
 		outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
 
@@ -37,7 +37,7 @@ public class GetIndexHandler {
 			outputPrintWriter.print(indexFileString);
 			outputPrintWriter.flush();
 			
-			log.info("Get request served");
+//			log.info("Get request served "+completeHeader);
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
