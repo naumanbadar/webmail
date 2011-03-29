@@ -62,7 +62,7 @@ public class SMTPClient{
 		         String from = email.get_from();
 		         //String from = "<gmani@mail.ik2213.lab>";
 		         out.println(from);
-		         String mailfrom = "MAIL FROM: " +"<"+ from +">"+" BODY=8BITMIME";
+		         String mailfrom = "MAIL FROM: " +"<"+ from +">";
 		         w.write(mailfrom);
 		         w.newLine();
 		         w.flush();
@@ -97,6 +97,11 @@ public class SMTPClient{
 		         w.write("DATA");
 		         w.newLine();
 		         w.flush();
+		         w.write("MIME-Version: 1.1"+ "\r\n");
+		         w.write("Content-Type: text/plain"+ "\r\n");
+		         w.write("Content-Transfer-Encoding: quoted-printable"+"\r\n");
+		         w.write("\r\n"); // end header
+		         w.flush();
 		         String m1=r.readLine();out.println(m1);
 		     
 		         // send header As a part of Message
@@ -109,7 +114,7 @@ public class SMTPClient{
 		         w.write(message + "\r\n");
 
 		         // end data with <CR/LF>.<CR/LF>
-		         w.write("\r\n.\r\n");
+		         w.write("\r\n.\r\n.....");
 		         w.flush();
 		         
 		         m=r.readLine(); out.println(m);
