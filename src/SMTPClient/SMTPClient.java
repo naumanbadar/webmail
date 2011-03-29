@@ -62,7 +62,7 @@ public class SMTPClient{
 		         String from = email.get_from();
 		         //String from = "<gmani@mail.ik2213.lab>";
 		         out.println(from);
-		         String mailfrom = "MAIL FROM: " + from +" BODY=8BITMIME";
+		         String mailfrom = "MAIL FROM: " +"<"+ from +">"+" BODY=8BITMIME";
 		         w.write(mailfrom);
 		         w.newLine();
 		         w.flush();
@@ -78,7 +78,7 @@ public class SMTPClient{
 		         
 		        String to = email.get_to();
 		        //String to = " <gmani@mail.ik2213.lab>";
-		         w.write("RCPT TO: "+to);
+		         w.write("RCPT TO: "+"<"+to+">");
 		         w.newLine();
 		         w.flush();
 		         m=r.readLine();out.println(m);
