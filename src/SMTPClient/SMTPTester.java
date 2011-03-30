@@ -15,9 +15,9 @@ public class SMTPTester {
 	Email email = new Email();
 	email.set_smtpServer(" gmani.mail.ik2213.lab");
 	email.set_from(" <gmani@mail.ik2213.lab>");
-	email.set_to(" <naumanb@mail.ik2213.lab>");
+	email.set_to(" <gmani@mail.ik2213.lab>");
 	email.set_subject("hello");
-	email.set_message("Hai how are you");
+	email.set_message("Swedish characters ÅÄÖåäö");
 	String returnmessage =smtp.sendEmail(email);
 	System.out.println("From STMPTESTER:"+returnmessage);
 	}
