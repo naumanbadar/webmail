@@ -28,14 +28,15 @@ public class PostHandler {
 //			log.info("POST BODY "+postBody);
 			
 			String fields[] = postBody.split("\\&?\\w*=");
-			Email email = new Email();
 			
-			email.set_from(URLDecoder.decode(fields[1],"UTF-8"));
-			email.set_to(URLDecoder.decode(fields[2],"UTF-8"));
-			email.set_subject(URLDecoder.decode(fields[3],"UTF-8"));
-			email.set_smtpServer(URLDecoder.decode(fields[4],"UTF-8"));
-			email.set_delay(Integer.parseInt(fields[5]));
-			email.set_message(URLDecoder.decode(fields[6],"UTF-8"));
+			Email email = new Email(URLDecoder.decode(fields[2],"UTF-8"),URLDecoder.decode(fields[1],"UTF-8"), URLDecoder.decode(fields[3],"UTF-8"), URLDecoder.decode(fields[4],"UTF-8"), Integer.parseInt(fields[5]), URLDecoder.decode(fields[6],"UTF-8"));
+			
+//			email.set_from(URLDecoder.decode(fields[1],"UTF-8"));
+//			email.set_to(URLDecoder.decode(fields[2],"UTF-8"));
+//			email.set_subject(URLDecoder.decode(fields[3],"UTF-8"));
+//			email.set_smtpServer(URLDecoder.decode(fields[4],"UTF-8"));
+//			email.set_delay(Integer.parseInt(fields[5]));
+//			email.set_message(URLDecoder.decode(fields[6],"UTF-8"));
 			
 			
 			log.info("email posted: "+email.toString());
