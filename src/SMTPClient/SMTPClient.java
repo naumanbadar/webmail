@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import Email.Email;
 import Email.EmailStatus;
@@ -15,13 +16,13 @@ import Interfaces.ISMTPClient;
 public class SMTPClient{
 	 String m = null;
 	
-	public String sendEmail(Email email) {
+	public String sendEmail(Email email) throws UnknownHostException, IOException {
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		      
 		PrintStream out = System.out;
 		      
-		      try {
+		     
 		         Socket c = new Socket("mail.ik2213.lab",25);
 		         
 		         BufferedWriter w = new BufferedWriter(new OutputStreamWriter(
@@ -71,7 +72,7 @@ public class SMTPClient{
 		        //for checking the correctness of from address
 		        if(!m.equals("250 2.1.0 Ok"))
 		       {
-		        	out.println("It comes inside");
+		        	out.println("Error in From Part");
 		        	return m;
 		       }
 		         //For Sending The TO Address
@@ -85,7 +86,7 @@ public class SMTPClient{
 		       //for checking the correctness of from address
 			        if(!m.equals("250 2.1.5 Ok"))
 			       {
-			        	out.println("Good TOO");
+			        	out.println("Error in To Part");
 			        	return m;
 			       }
 		         
@@ -97,11 +98,17 @@ public class SMTPClient{
 		         w.write("DATA");
 		         w.newLine();
 		         w.flush();
+		      // send header As a part of Message
+		         /*w.write("From: " + from + "\r\n");
+		         w.write("To: " + to + "\r\n");
+		         w.write("Subject: " + subject + "\r\n");
+		         w.write("\r\n"); // end header*/
+
 		         w.write("MIME-Version: 1.1"+ "\r\n");
-		         w.write("Content-Type: text/plain"+ "\r\n");
+		         w.write("Content-Type: text/RFC822"+ "\r\n");
 		         w.write("Content-Transfer-Encoding: quoted-printable"+"\r\n");
-		         w.write("\r\n"); // end header
-		         w.flush();
+		         //w.write("\r\n"); // end header
+		         //w.flush();
 		         String m1=r.readLine();out.println(m1);
 		     
 		         // send header As a part of Message
@@ -120,7 +127,7 @@ public class SMTPClient{
 		         m=r.readLine(); out.println(m);
 		         if(!m.regionMatches(0, "2.0.0 Ok: queued as",0,10))
 			       {
-			        	//out.println("Good MESSAGE");
+			        	out.println("Error in Body");
 			        	return m;
 			       }
 		         // To close the SMTP connection
@@ -136,9 +143,7 @@ public class SMTPClient{
 		         r.close();
 		         c.close();
 		         
-		      } catch (IOException e) {
-		         System.err.println(e.toString());
-		      }// TODO Auto-generated method stub
+		     
 			return m;
 
 	}
