@@ -13,7 +13,7 @@ public class EmailStatusHTML {
 		htmlData.append("<tr align = center><td>From</td<td>To</td><td>Subject</td><td>Sent Time</td><td>Delivered Time</td></tr>");
 		for (Email email : emailList) {
 			
-			htmlData.append("<tr><td>"+email.get_from()+"</td><td>"+email.get_to()+"</td><td>"+email.get_subject()+"</td><td>"+email.getSubmissionTimeString()+"</td><td>"+email.getSubmissionTimeString()+"</td></tr>");
+			htmlData.append("<tr><td>"+email.get_from()+"</td><td>"+email.get_to()+"</td><td>"+email.get_subject()+"</td><td>"+email.getSubmissionTimeString()+"</td><td>"+email.getDeliveryTimeString()+"</td></tr>");
 			
 		}
 		

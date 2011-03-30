@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import Email.Email;
 import SMTPClient.SMTPClient;
+import StateManager.StateManager;
 
 public class PostHandler {
 
@@ -41,7 +42,9 @@ public class PostHandler {
 			
 			log.info("email posted: "+email.toString());
 			
-			log.info(SMTPClient.sendEmail(email));
+//			log.info(SMTPClient.sendEmail(email));
+			StateManager stateManager  = StateManager.INSTANCE;
+			stateManager.sendEmail(email);
 			
 			outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
 			outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY><H1>Pay your bill.</H1></BODY></HTML>");
