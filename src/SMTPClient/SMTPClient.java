@@ -105,16 +105,17 @@ public class SMTPClient{
 		         w.write("\r\n"); // end header*/
 
 		         w.write("MIME-Version: 1.1"+ "\r\n");
-		         w.write("Content-Type: text/RFC822"+ "\r\n");
+		         w.write("Content-Type: text/plain"+ "\r\n");
 		         w.write("Content-Transfer-Encoding: quoted-printable"+"\r\n");
 		         //w.write("\r\n"); // end header
-		         //w.flush();
+		         w.flush();
 		         String m1=r.readLine();out.println(m1);
 		     
 		         // send header As a part of Message
 		         w.write("From: " + from + "\r\n");
 		         w.write("To: " + to + "\r\n");
-		         w.write("Subject: " + subject + "\r\n");
+		         //w.write("Subject: " + subject + "\r\n");
+		         w.write("Subject: =?ISO-8859-1?Q?" + subject + "?=\r\n");
 		         w.write("\r\n"); // end header
 		        
 		         // The Body of the mail		         
