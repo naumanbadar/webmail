@@ -9,13 +9,11 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 import Email.Email;
-import Email.EmailStatus;
-import Interfaces.ISMTPClient;
 
 public class SMTPClient{
-	 String m = null;
 	
-	public String sendEmail(Email email) {
+	public static String sendEmail(Email email) {
+		String m = null;
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		      
