@@ -2,6 +2,8 @@ package StateManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,9 +20,21 @@ import Email.Email;
 import SMTPClient.SMTPClient;
 import WebServer.PostHandler;
 
+/**
+ * @author Nauman Badar <nauman.gwt@gmail.com>
+ * @created Mar 31, 2011
+ *
+ */
 public class StateManager {
 	private final static Logger log = Logger.getLogger(StateManager.class.getName());
-	ArrayList<Email> emailList = new ArrayList<Email>();
+	private ArrayList<Email> emailList = new ArrayList<Email>();
+
+	/**
+	 * @return the emailList
+	 */
+	public ArrayList<Email> getEmailList() {
+		return emailList;
+	}
 
 	public final static StateManager INSTANCE = new StateManager();
 
@@ -50,12 +64,24 @@ public class StateManager {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			smtpReponse = SMTPClient.sendEmail(originalEmail);
+			try {
+				smtpReponse = SMTPClient.sendEmail(originalEmail);
+			} catch (UnknownHostException e) {
+				log.info("SMTP Server is not reachable");
+				originalEmail.set_deliveryStatus("SMTP SERVER UNREACHABLE");
+				return;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
 			if (Pattern.matches("250.*Ok.*", smtpReponse)) {
 				log.info(threadID+"Original Mail delivery has succeeded");
+				originalEmail.set_deliveryStatus("SUCCESSFULLY DELIVERED");
 				sendDeliveryReport(DELIVERY_STATUS.SUCCESS);
 			} else {
 				log.info(threadID+"Original Mail delivery has failed");
+				originalEmail.set_deliveryStatus("DELIVERY FAILED");
 				sendDeliveryReport(DELIVERY_STATUS.FAILURE);
 			}
 		}
@@ -75,7 +101,16 @@ public class StateManager {
 			default:
 				break;
 			}
-			String deliveryReport_Delivery = SMTPClient.sendEmail(deliveryReportEmail);
+			String deliveryReport_Delivery="";
+			try {
+				deliveryReport_Delivery = SMTPClient.sendEmail(deliveryReportEmail);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			log.info(threadID+"Delivery Report Status: " + deliveryReport_Delivery);
 		}
 	}
