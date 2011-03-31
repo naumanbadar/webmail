@@ -96,8 +96,8 @@ public class StateManager {
 				break;
 
 			case FAILURE:
-				originalEmail.set_deliveryTime("FAILED");
-				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), "", 0, smtpReponse + " " + originalEmail.get_message());
+//				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), "", 0, smtpReponse + " " + originalEmail.get_message());
+				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), "", 0, "The following message couldn't be delivered to "+originalEmail.get_to()+" REASON: "+smtpReponse+"=0D=0A" + originalEmail.get_message());
 				break;
 
 			default:

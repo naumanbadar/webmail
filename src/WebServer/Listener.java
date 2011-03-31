@@ -54,14 +54,17 @@ public class Listener {
 				completeHeader.append(readline + "\r\n");
 			}
 
-			if (Pattern.matches("^GET.*", requestHeader) || Pattern.matches("^GET /index.html.*", requestHeader)) {
-//				log.info("got a Get index.html request");
+			if (Pattern.matches("^GET / .*", requestHeader) || Pattern.matches("^GET /index.*", requestHeader)) {
+//				log.info(requestHeader);
 				GetIndexHandler.handle(inputBufferReader, outputPrintWriter, completeHeader);
 			}
 
 			else if (Pattern.matches("^POST.*", requestHeader)) {
 				PostHandler.handle(inputBufferReader, outputPrintWriter, completeHeader);
 
+			}else if (Pattern.matches("^GET /status.*", requestHeader)) {
+				GetStatusHandler.handle(inputBufferReader, outputPrintWriter, completeHeader);
+				log.info("GET STATUS");
 			}
 
 			// ipbuff.read(charb);
