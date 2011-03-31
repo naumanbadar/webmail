@@ -11,6 +11,11 @@ import Email.Email;
 import SMTPClient.SMTPClient;
 import StateManager.StateManager;
 
+/**
+ * @author Nauman Badar <nauman.gwt@gmail.com>
+ * @created Mar 31, 2011
+ *
+ */
 public class PostHandler {
 
 	private final static Logger log = Logger.getLogger(PostHandler.class.getName());
@@ -30,7 +35,8 @@ public class PostHandler {
 			
 			String fields[] = postBody.split("\\&?\\w*=");
 			
-			Email email = new Email(URLDecoder.decode(fields[2],"UTF-8"),URLDecoder.decode(fields[1],"UTF-8"), URLDecoder.decode(fields[3],"UTF-8"), URLDecoder.decode(fields[4],"UTF-8"), Integer.parseInt(fields[5]), URLDecoder.decode(fields[6],"UTF-8"));
+			Email email = new Email(URLDecoder.decode(fields[2],"UTF-8"),URLDecoder.decode(fields[1],"UTF-8"), QPEncoder.encode(URLDecoder.decode(" "+fields[3],"UTF-8")), URLDecoder.decode(fields[4],"UTF-8"), Integer.parseInt(fields[5]),QPEncoder.encode(URLDecoder.decode(fields[6],"UTF-8")));
+			email.set_originalSubject(URLDecoder.decode(fields[3],"UTF-8"));
 			
 //			email.set_from(URLDecoder.decode(fields[1],"UTF-8"));
 //			email.set_to(URLDecoder.decode(fields[2],"UTF-8"));

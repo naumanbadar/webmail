@@ -10,6 +10,11 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Nauman Badar <nauman.gwt@gmail.com>
+ * @created Mar 31, 2011
+ *
+ */
 public class Listener {
 
 	private final static Logger log = Logger.getLogger(Listener.class.getName());

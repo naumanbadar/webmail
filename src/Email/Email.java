@@ -20,6 +20,8 @@ public class Email {
 	private String _submissionTime;
 	private String _deliveryTime;
 	private String _deliveryStatus;
+	
+	private String _originalSubject;
 
 	/**
 	 * @param _to
@@ -207,5 +209,13 @@ public class Email {
 		// SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:ss");
 		// return sdf.format(_deliveryTime.getTime());
 		return _deliveryTime;
+	}
+
+	public void set_originalSubject(String _originalSubject) {
+		this._originalSubject = _originalSubject;
+	}
+
+	public String get_originalSubject() {
+		return _originalSubject;
 	}
 }

@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import Email.Email;
 import SMTPClient.SMTPClient;
 import WebServer.PostHandler;
+import WebServer.QPEncoder;
 
 /**
  * @author Nauman Badar <nauman.gwt@gmail.com>
@@ -90,12 +91,13 @@ public class StateManager {
 			Email deliveryReportEmail = new Email("naumanb@mail.ik2213.lab", "noneofswitchworked@mail.ik2213.lab", "", "", 0, "");
 			switch (deliveryStatus) {
 			case SUCCESS:
-				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", "SUCCESS NOTICE: " + originalEmail.get_subject(), "", 0, smtpReponse + " " + originalEmail.get_message());
+//				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" SUCCESS NOTICE: " + originalEmail.get_originalSubject()), "", 0, smtpReponse + " " + originalEmail.get_message());
+				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" SUCCESS NOTICE: " + originalEmail.get_originalSubject()), "", 0, "The following message has been successfully delivered to "+originalEmail.get_to()+"=0D=0A" + originalEmail.get_message());
 				break;
 
 			case FAILURE:
 				originalEmail.set_deliveryTime("FAILED");
-				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", "FAILURE NOTICE: " + originalEmail.get_subject(), "", 0, smtpReponse + " " + originalEmail.get_message());
+				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), "", 0, smtpReponse + " " + originalEmail.get_message());
 				break;
 
 			default:
