@@ -8,6 +8,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Hashtable;
+
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
 
 import Email.Email;
 import Email.EmailStatus;
@@ -15,15 +22,46 @@ import Interfaces.ISMTPClient;
 
 public class SMTPClient{
 	 String m = null;
+	   String doLookup( String hostName ) throws NamingException {
+		  
+		  int pos = hostName.indexOf( '@' );
+	      // If the address does not contain an '@', it's not valid
+	      // Isolate the domain/machine name and get a list of mail exchangers
+	      String domain = hostName.substring( ++pos );
+		  
+	      Hashtable env = new Hashtable();
+	    env.put("java.naming.factory.initial","com.sun.jndi.dns.DnsContextFactory");
+	    DirContext ictx = new InitialDirContext( env );
+	    Attributes attrs = 
+	       ictx.getAttributes( domain, new String[] { "MX" });
+	    Attribute attr = attrs.get( "MX" );
+	    
+	    if (( attr == null ) || ( attr.size() == 0 )) {
+	        attrs = ictx.getAttributes( domain, new String[] { "A" });
+	        attr = attrs.get( "A" );
+	    }
+	    System.out.println(attr.get());
+	    if( attr == null ) return "no server found";
+	    return (String) (attr.get());
+	  
+	  }
 	
-	public String sendEmail(Email email) throws UnknownHostException, IOException {
+	public String sendEmail(Email email) throws UnknownHostException, IOException, NamingException {
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		      
 		PrintStream out = System.out;
-		      
+		String domainname = email.get_from();
+		int pos = domainname.indexOf( '@' );
+	      // If the address does not contain an '@', it's not valid
+	      // Isolate the domain/machine name and get a list of mail exchangers
+	      String domain = domainname.substring( ++pos );
+		
+		//hostname from the MX module  
+		String hostipaddress = doLookup(email.get_from());
+		     out.println(hostipaddress);
+		     Socket c = new Socket(hostipaddress,25);
 		     
-		         Socket c = new Socket("mail.ik2213.lab",25);
 		         
 		         BufferedWriter w = new BufferedWriter(new OutputStreamWriter(
 		            c.getOutputStream()));
@@ -45,11 +83,11 @@ public class SMTPClient{
 		         }*/
 		         
 		         //For Sending the HELO Message
-		         String hostName = email.get_smtpServer();
+		         //String hostName = email.get_smtpServer();
 		         //String hostName = " gmani.mail.ik2213.lab";
 		         
 		              
-		         w.write("EHLO "+hostName);
+		         w.write("EHLO "+domain);
 		         w.newLine();
 		         int i =8;
 		         do
