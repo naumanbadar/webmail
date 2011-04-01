@@ -17,6 +17,7 @@ public class QPEncoder {
 		encodedString = encodedString.replaceAll(" ", "=20");
 		encodedString = encodedString.replaceAll("\r\n", "=0D=0A");
 		encodedString = encodedString.replaceAll("\\.", "=2E");
+		encodedString = encodedString.replaceAll("\\?", "=3F");
 		
 		
 		encodedString = encodedString.replaceAll("å", "=E5");
