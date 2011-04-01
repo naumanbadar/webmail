@@ -2,24 +2,44 @@
 <HEAD>
 <TITLE>IK2213 Web Mail</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=utf-8">
-<META content="MSHTML 6.00.2900.5512" name=GENERATOR>
 </HEAD>
+<style type="text/css">
+body {
+	font-family:verdana,arial,sans-serif;
+	font-size:10pt;
+	margin:10px;
+	background-color:#ff9900;
+	}
+</style>
 <BODY>
-<FORM name=formWebmail method=post>From <INPUT value=abc@xyz.com
-	name=textfieldFrom ><BR>
-To <INPUT value=pqr@stu.com name=textfieldTo ><BR>
-Subject <INPUT value="Greetings from Webmail" name=textfieldSubject
-	><BR>
-SMTP Server <INPUT value=mail.ik2213.lab name=textfieldSMTP
-	><BR>
-Delay <INPUT value=0 name=textfieldDelay
-	><BR>
+<FORM name=formWebmail method=post> 
+<table>
+<tr>
+<td>From
+<td><INPUT value=abc@xyz.com name=textfieldFrom >
+<tr>
+<td>To 
+<td><INPUT value=pqr@stu.com name=textfieldTo >
+</tr>
+<tr>
+<td>Subject
+<td><INPUT value="Greetings from Webmail" name=textfieldSubject>
+</tr>
+<tr>
+<td>SMTP Server
+<td><INPUT value=mail.ik2213.lab name=textfieldSMTP>
+</tr>
+<tr>
+<td>Delay
+<td><INPUT value=0 name=textfieldDelay>
+</tr>
+</table>
 Message<BR>
 <TEXTAREA name=textareaMessage rows=20 cols=80>This is test message from "IK2213 Webmail". Å Ä Ö å ä ö
 </TEXTAREA><BR>
 
-<INPUT type=submit value=Submit name=btnSubmit> <INPUT
-	type=reset value=Reset name=btnReset></FORM>
+<INPUT type=submit value=Submit name=btnSubmit onClick="MsgBox(formWebmail.textfieldSubject.value)"> 
+<INPUT type=reset value=Reset name=btnReset></FORM>
 </BODY>
 </HTML>
 

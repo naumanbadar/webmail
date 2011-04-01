@@ -10,6 +10,11 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Nauman Badar <nauman.gwt@gmail.com>
+ * @created Mar 31, 2011
+ *
+ */
 public class GetIndexHandler {
 	private final static Logger log = Logger.getLogger(GetIndexHandler.class.getName());
 
