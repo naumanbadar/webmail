@@ -17,7 +17,6 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
 import Email.Email;
-import Email.EmailStatus;
 
 public class SMTPClient {
 
@@ -54,7 +53,7 @@ public class SMTPClient {
 
 		PrintStream out = System.out;
 
-		String domainname = email.get_from();
+		String domainname = email.get_to();
 		int pos = domainname.indexOf('@');
 		// If the address does not contain an '@', it's not valid
 		// Isolate the domain/machine name and get a list of mail exchangers
@@ -160,7 +159,7 @@ public class SMTPClient {
 
 		m = r.readLine();
 		out.println(m);
-		if (!m.regionMatches(0, "2.0.0 Ok: queued as", 0, 10)) {
+			if (!m.regionMatches(0, "250 2.0.0 Ok", 0, 7)) {
 			out.println("Error in Body");
 			return m;
 		}

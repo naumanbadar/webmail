@@ -10,7 +10,8 @@ public class EmailStatusHTML {
 		StringBuilder htmlData;
 		htmlData = new StringBuilder();
 		htmlData.append("<HTML>");
-		htmlData.append("<HEAD><Title>Webmail</Title><META HTTP-EQUIV=\"REFRESH\" CONTENT=\"5\"><META http-equiv=Content-Type content=\"text/html; charset=utf-8\">head>");
+
+		htmlData.append("<HEAD><Title>Webmail</Title><META HTTP-EQUIV=\"REFRESH\" CONTENT=\"5\"><META http-equiv=Content-Type content=\"text/html; charset=utf-8\"></head>");
 		htmlData.append("<BODY>");
 		
 		htmlData.append("<table style =\"color: #a52a2a\" border = 2 cellspacing = 1 cellpadding = 5 bgcolor = \"ffcc00\" bordercolor = \"ffffff\">");

@@ -12,29 +12,34 @@ body {
 	}
 </style>
 <BODY>
-<FORM name=formWebmail method=post>From <INPUT value=gmani@mail.ik2213.lab
-	name=textfieldFrom ><BR>
-To <INPUT value=naumanb@mail.ik2213.lab name=textfieldTo ><BR>
-Subject <INPUT value="Can you encode Swedish characters (öäåÖÄÅ)?" name=textfieldSubject
-	maxlength="25"><BR>
-SMTP Server <INPUT value=mail.ik2213.lab name=textfieldSMTP
-	><BR>
-Delay <INPUT value=0 name=textfieldDelay
-	><BR>
+<FORM name=formWebmail method=post> 
+<table>
+<tr>
+<td>From
+<td><INPUT value=abc@xyz.com name=textfieldFrom >
+<tr>
+<td>To 
+<td><INPUT value=pqr@stu.com name=textfieldTo >
+</tr>
+<tr>
+<td>Subject
+<td><INPUT value="Greetings from Webmail" name=textfieldSubject>
+</tr>
+<tr>
+<td>SMTP Server
+<td><INPUT value=mail.ik2213.lab name=textfieldSMTP>
+</tr>
+<tr>
+<td>Delay
+<td><INPUT value=0 name=textfieldDelay>
+</tr>
+</table>
 Message<BR>
-<TEXTAREA name=textareaMessage rows=20 cols=80>Hello,
-
-This body contains some Swedish characters. The receiver should see exactly the same text as shown here. For instance, the character ä will be translated into =E4 when your application sends the text to the SMTP server, but the receiver will see "ä" (the user doesn't see the translation at all). By the way, all this text so far is a very long line, indeed.
-
-The "=" symbol is an special character in MIME. I hope your encoder doesn't have problems with their presence in this body =
-===
-The Final line is just a single equal symbol
-=
-Can you encode Swedish characters (öäåÖÄÅ)?
+<TEXTAREA name=textareaMessage rows=20 cols=80>This is test message from "IK2213 Webmail". Å Ä Ö å ä ö
 </TEXTAREA><BR>
 
-<INPUT type=submit value=Submit name=btnSubmit> <INPUT
-	type=reset value=Reset name=btnReset></FORM>
+<INPUT type=submit value=Submit name=btnSubmit onClick="MsgBox(formWebmail.textfieldSubject.value)"> 
+<INPUT type=reset value=Reset name=btnReset></FORM>
 </BODY>
 </HTML>
 
