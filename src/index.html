@@ -16,14 +16,14 @@ body {
 <table>
 <tr>
 <td>From
-<td><INPUT value=abc@xyz.com name=textfieldFrom >
+<td><INPUT value=gmani@mail.ik2213.lab name=textfieldFrom >
 <tr>
 <td>To 
-<td><INPUT value=pqr@stu.com name=textfieldTo >
+<td><INPUT value=naumanb@mail.ik2213.lab name=textfieldTo >
 </tr>
 <tr>
 <td>Subject
-<td><INPUT value="Greetings from Webmail" name=textfieldSubject>
+<td><INPUT value="Can you encode Swedish characters (öäåÖÄÅ)?" name=textfieldSubject>
 </tr>
 <tr>
 <td>SMTP Server
@@ -35,7 +35,15 @@ body {
 </tr>
 </table>
 Message<BR>
-<TEXTAREA name=textareaMessage rows=20 cols=80>This is test message from "IK2213 Webmail". Å Ä Ö å ä ö
+<TEXTAREA name=textareaMessage rows=20 cols=80>Hello,
+
+This body contains some Swedish characters. The receiver should see exactly the same text as shown here. For instance, the character ä will be translated into =E4 when your application sends the text to the SMTP server, but the receiver will see "ä" (the user doesn't see the translation at all). By the way, all this text so far is a very long line, indeed.
+
+The "=" symbol is an special character in MIME. I hope your encoder doesn't have problems with their presence in this body =
+===
+The Final line is just a single equal symbol
+=
+Can you encode Swedish characters (öäåÖÄÅ)?
 </TEXTAREA><BR>
 
 <INPUT type=submit value=Submit name=btnSubmit onClick="MsgBox(formWebmail.textfieldSubject.value)"> 
