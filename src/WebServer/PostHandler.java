@@ -53,7 +53,7 @@ public class PostHandler {
 			stateManager.sendEmail(email);
 			
 			outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
-			outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY><H1>Pay your bill.</H1></BODY></HTML>");
+			outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY bgcolor=\"#ff9900\"><H1>Your email has been submitted to SMTP Client.</H1></BODY></HTML>");
 			
 			
 		} catch (IOException e) {
