@@ -53,16 +53,18 @@ public class SMTPClient {
 
 		PrintStream out = System.out;
 
-		String domainname = email.get_to();
-		int pos = domainname.indexOf('@');
+//		String domainname = email.get_to();
+//		int pos = domainname.indexOf('@');
 		// If the address does not contain an '@', it's not valid
 		// Isolate the domain/machine name and get a list of mail exchangers
-		String domain = domainname.substring(++pos);
+		String hostName = "gmani.laptop";
 
 		// hostname from the MX module
-		String hostipaddress = doLookup(email.get_from());
-		out.println(hostipaddress);
-		Socket c = new Socket(hostipaddress, 25);
+		String smtpServerFromEmail = email.get_smtpServer();
+//		String hostipaddress = doLookup(email.get_from());
+		
+		out.println(smtpServerFromEmail);
+		Socket c = new Socket(smtpServerFromEmail, 25);
 
 		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(
 				c.getOutputStream()));
@@ -79,7 +81,7 @@ public class SMTPClient {
 		// String hostName = email.get_smtpServer();
 		// String hostName = " gmani.mail.ik2213.lab";
 
-		w.write("EHLO " + domain);
+		w.write("EHLO " + hostName);
 		w.newLine();
 		int i = 8;
 		do {
