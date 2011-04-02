@@ -2,6 +2,26 @@
 <HEAD>
 <TITLE>IK2213 Web Mail</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=utf-8">
+<script language="javascript">
+function checkForm(){	
+	var from = formWebmail.textfieldFrom.value;
+	var to  = formWebmail.textfieldTo.value;
+	var pattern=/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
+	 if(!pattern.test(from)){         
+			alert("Enter Valid From Address"); 
+			return false;
+	    }
+	 else if(!pattern.test(to)){         
+			alert("Enter Valid To Address"); 
+			return false;
+	    }
+
+
+
+
+
+}
+</script>
 </HEAD>
 <style type="text/css">
 body {
@@ -12,7 +32,7 @@ body {
 	}
 </style>
 <BODY>
-<FORM name=formWebmail method=post> 
+<FORM name=formWebmail method=post onsubmit="return checkForm();"> 
 <table>
 <tr>
 <td>From
@@ -46,7 +66,7 @@ The Final line is just a single equal symbol
 Can you encode Swedish characters (öäåÖÄÅ)?
 </TEXTAREA><BR>
 
-<INPUT type=submit value=Submit name=btnSubmit onClick="MsgBox(formWebmail.textfieldSubject.value)"> 
+<INPUT type=submit value=Submit name=btnSubmit> 
 <INPUT type=reset value=Reset name=btnReset></FORM>
 </BODY>
 </HTML>
