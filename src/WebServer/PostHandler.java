@@ -8,7 +8,6 @@ import java.net.URLDecoder;
 import org.apache.log4j.Logger;
 
 import Email.Email;
-import SMTPClient.SMTPClient;
 import StateManager.StateManager;
 
 /**

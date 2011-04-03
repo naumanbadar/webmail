@@ -1,6 +1,5 @@
 package Email;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -194,6 +193,7 @@ public class Email {
 	// this._message = _message;
 	// }
 
+	@Override
 	public String toString() {
 		return "FROM:" + _from + " " + "TO:" + _to + " " + "SUBJECT:" + _subject + " " + "SMTP_SERVER:" + _smtpServer + " " + "DELAY:" + _delay + " " + "MESSAGE:" + _message;
 	}
