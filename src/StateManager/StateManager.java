@@ -4,12 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.naming.NamingException;
@@ -19,13 +14,12 @@ import org.apache.log4j.Logger;
 
 import Email.Email;
 import SMTPClient.SMTPClient;
-import WebServer.PostHandler;
 import WebServer.QPEncoder;
 
 /**
  * @author Nauman Badar <nauman.gwt@gmail.com>
  * @created Mar 31, 2011
- *
+ * 
  */
 public class StateManager {
 	private final static Logger log = Logger.getLogger(StateManager.class.getName());
@@ -67,60 +61,84 @@ public class StateManager {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			try {
+				// /check if the smtp is empty do a lookup and then send email
+				if (originalEmail.get_smtpServer().isEmpty()) {
+					String smtpServerByLookup = SMTPClient.doLookup(originalEmail.get_to());
+					log.info("SMTP LOOKUP FOR RCPT: "+smtpServerByLookup);
+					originalEmail.set_smtpServer(smtpServerByLookup);
+				}
 				smtpReponse = SMTPClient.sendEmail(originalEmail);
+				
 			} catch (UnknownHostException e) {
 				log.info("SMTP Server is not reachable");
 				originalEmail.set_deliveryStatus("SMTP SERVER UNREACHABLE");
+				sendDeliveryReport(DELIVERY_STATUS.DNS_FAILURE);
 				return;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.info("TIMEOUT: "+smtpReponse);
+				originalEmail.set_deliveryStatus("SMTP SERVER TIMEOUT");
+				sendDeliveryReport(DELIVERY_STATUS.SMTP_TIMEOUT);
+//				e.printStackTrace();
 				return;
 			} catch (NamingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.info("DNS lookup of RCPT domain failed!");
+				originalEmail.set_deliveryStatus("DNS lookup of RCPT domain failed.");
+				sendDeliveryReport(DELIVERY_STATUS.DNS_FAILURE);
+				return;
 			}
 			if (Pattern.matches("250.*Ok.*", smtpReponse)) {
-				log.info(threadID+"Original Mail delivery has succeeded");
+				log.info(threadID + "Original Mail delivery has succeeded");
 				originalEmail.set_deliveryStatus("SUCCESSFULLY DELIVERED");
 				sendDeliveryReport(DELIVERY_STATUS.SUCCESS);
 			} else {
-				log.info(threadID+"Original Mail delivery has failed");
+				log.info(threadID + "Original Mail delivery has failed");
 				originalEmail.set_deliveryStatus("DELIVERY FAILED");
 				sendDeliveryReport(DELIVERY_STATUS.FAILURE);
 			}
 		}
 
 		private void sendDeliveryReport(DELIVERY_STATUS deliveryStatus) {
+			try {
 			Email deliveryReportEmail = new Email("naumanb@mail.ik2213.lab", "noneofswitchworked@mail.ik2213.lab", "", "", 0, "");
 			switch (deliveryStatus) {
 			case SUCCESS:
-//				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" SUCCESS NOTICE: " + originalEmail.get_originalSubject()), "", 0, smtpReponse + " " + originalEmail.get_message());
-				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" SUCCESS NOTICE: " + originalEmail.get_originalSubject()), "", 0, "The following message has been successfully delivered to "+originalEmail.get_to()+"=0D=0A" + originalEmail.get_message());
+				// deliveryReportEmail = new Email(originalEmail.get_from(),
+				// "noreply@mail.ik2213.lab",QPEncoder.encode(" SUCCESS NOTICE: "
+				// + originalEmail.get_originalSubject()), "", 0, smtpReponse +
+				// " " + originalEmail.get_message());
+				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" SUCCESS NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message has been successfully delivered to " + originalEmail.get_to() + "=0D=0A" + originalEmail.get_message());
 				break;
 
 			case FAILURE:
-//				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), "", 0, smtpReponse + " " + originalEmail.get_message());
-				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab",QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), "", 0, "The following message couldn't be delivered to "+originalEmail.get_to()+" REASON: "+smtpReponse+"=0D=0A" + originalEmail.get_message());
+				// deliveryReportEmail = new Email(originalEmail.get_from(),
+				// "noreply@mail.ik2213.lab",QPEncoder.encode(" FAILURE NOTICE: "
+				// + originalEmail.get_originalSubject()), "", 0, smtpReponse +
+				// " " + originalEmail.get_message());
+				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message couldn't be delivered to " + originalEmail.get_to() + " REASON: " + smtpReponse + "=0D=0A" + originalEmail.get_message());
 				break;
 
+			case DNS_FAILURE:
+//				log.info("about to send DNS failure delivery report");
+				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message couldn't be delivered to " + originalEmail.get_to() + " REASON: DNS lookup of RCPT failed."+ "=0D=0A" + originalEmail.get_message());
+				
+			case SMTP_TIMEOUT:
+//				log.info("about to send DNS failure delivery report");
+				deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message couldn't be delivered to " + originalEmail.get_to() + " REASON: Either domain is not correct or SMTP didn't respond in time."+ "=0D=0A" + originalEmail.get_message());
+				
 			default:
 				break;
 			}
-			String deliveryReport_Delivery="";
-			try {
+			String deliveryReport_Delivery = "";
 				deliveryReport_Delivery = SMTPClient.sendEmail(deliveryReportEmail);
+				log.info(threadID + "Delivery Report Status: " + deliveryReport_Delivery);
 			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				originalEmail.set_deliveryStatus("Delivery Report couldn't be sent.");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus()+"<br/>Delivery Report couldn't be sent because SMTP timedout.");
+//				e.printStackTrace();
 			} catch (NamingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus()+"<br/>DNS lookup of return address domain for delivery report also failed");
 			}
-			log.info(threadID+"Delivery Report Status: " + deliveryReport_Delivery);
 		}
 	}
 }

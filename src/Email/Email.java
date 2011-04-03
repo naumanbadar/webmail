@@ -36,11 +36,11 @@ public class Email {
 		this._from = _from;
 		this._to = _to;
 		this._subject = _subject;
-		if (smtpServer.isEmpty()) {
-			this._smtpServer = "smtp.ik2213.lab";
-		} else {
+//		if (smtpServer.isEmpty()) {
+//			this._smtpServer = "smtp.ik2213.lab";
+//		} else {
 			this._smtpServer = smtpServer;
-		}
+//		}
 
 		this._delay = _delay;
 		this._message = _message;
@@ -161,9 +161,9 @@ public class Email {
 	 * @param _smtpServer
 	 *            the _smtpServer to set
 	 */
-	// public void set_smtpServer(String _smtpServer) {
-	// this._smtpServer = _smtpServer;
-	// }
+	 public void set_smtpServer(String _smtpServer) {
+	 this._smtpServer = _smtpServer;
+	 }
 
 	/**
 	 * @return the _delay

@@ -6,5 +6,5 @@ package StateManager;
  *
  */
 public enum DELIVERY_STATUS {
-SUCCESS,FAILURE
+SUCCESS,FAILURE,DNS_FAILURE,SMTP_TIMEOUT
 }

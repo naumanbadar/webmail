@@ -64,7 +64,7 @@ public class Listener {
 
 			}else if (Pattern.matches("^GET /status.*", requestHeader)) {
 				GetStatusHandler.handle(inputBufferReader, outputPrintWriter, completeHeader);
-				log.info("GET STATUS");
+//				log.info("GET STATUS");
 			}
 
 			// ipbuff.read(charb);

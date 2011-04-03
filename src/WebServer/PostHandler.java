@@ -34,8 +34,19 @@ public class PostHandler {
 //			log.info("POST BODY "+postBody);
 			
 			String fields[] = postBody.split("\\&?\\w*=");
+
+			String toAddress = URLDecoder.decode(fields[2],"UTF-8");
+			String fromAddress = URLDecoder.decode(fields[1],"UTF-8");
+			String delay = fields[5];
 			
-			Email email = new Email(URLDecoder.decode(fields[2],"UTF-8"),URLDecoder.decode(fields[1],"UTF-8"), QPEncoder.encode(URLDecoder.decode(" "+fields[3],"UTF-8")), URLDecoder.decode(fields[4],"UTF-8"), Integer.parseInt(fields[5]),QPEncoder.encode(URLDecoder.decode(fields[6],"UTF-8")));
+			if (!FormatChecker.checkEmailFormat(toAddress)||!FormatChecker.checkEmailFormat(fromAddress)||!FormatChecker.checkDelayFormat(delay)) {
+				outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
+				outputPrintWriter.println("<HTML><HEAD><TITLE>Error in input fields</TITLE></HEAD><BODY bgcolor=\"#ff9900\"><H1>Please check email delay format.</H1></BODY></HTML>");
+				return;
+				
+			}
+			
+			Email email = new Email(toAddress,fromAddress, QPEncoder.encode(URLDecoder.decode(" "+fields[3],"UTF-8")), URLDecoder.decode(fields[4],"UTF-8"), Integer.parseInt(delay),QPEncoder.encode(URLDecoder.decode(fields[6],"UTF-8")));
 			email.set_originalSubject(URLDecoder.decode(fields[3],"UTF-8"));
 			
 //			email.set_from(URLDecoder.decode(fields[1],"UTF-8"));
@@ -53,7 +64,7 @@ public class PostHandler {
 			stateManager.sendEmail(email);
 			
 			outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
-			outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY bgcolor=\"#ff9900\"><H1>Your email has been submitted to SMTP Client.</H1></BODY></HTML>");
+			outputPrintWriter.println("<HTML><HEAD><TITLE>IK2213 Web Mail</TITLE></HEAD><BODY bgcolor=\"#ff9900\"><H1>Your email has been submitted to SMTP Client.</H1></BODY></HTML>");
 			
 			
 		} catch (IOException e) {
