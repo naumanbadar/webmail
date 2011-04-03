@@ -20,7 +20,7 @@ import Email.Email;
 
 public class SMTPClient {
 
-	static String doLookup(String hostName) throws NamingException {
+	public static String doLookup(String hostName) throws NamingException {
 
 		int pos = hostName.indexOf('@');
 		// If the address does not contain an '@', it's not valid
@@ -38,7 +38,7 @@ public class SMTPClient {
 			attrs = ictx.getAttributes(domain, new String[] { "A" });
 			attr = attrs.get("A");
 		}
-		System.out.println(attr.get());
+//		System.out.println(attr.get());
 		if (attr == null)
 			return "no server found";
 		return (String) (attr.get());
@@ -63,7 +63,7 @@ public class SMTPClient {
 		String smtpServerFromEmail = email.get_smtpServer();
 //		String hostipaddress = doLookup(email.get_from());
 		
-		out.println(smtpServerFromEmail);
+//		out.println(smtpServerFromEmail);
 		Socket c = new Socket(smtpServerFromEmail, 25);
 
 		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(
@@ -87,20 +87,20 @@ public class SMTPClient {
 		do {
 			w.flush();
 			m = r.readLine();
-			out.println(m);
+//			out.println(m);
 			i--;
 		} while (i != 0);
 		;
 		// For Sending The From Address
 		String from = email.get_from();
 		// String from = "<gmani@mail.ik2213.lab>";
-		out.println(from);
+//		out.println(from);
 		String mailfrom = "MAIL FROM: " + "<" + from + ">";
 		w.write(mailfrom);
 		w.newLine();
 		w.flush();
 		m = r.readLine();
-		out.println(m);
+//		out.println(m);
 
 		// for checking the correctness of from address
 		if (!m.equals("250 2.1.0 Ok")) {
@@ -115,7 +115,7 @@ public class SMTPClient {
 		w.newLine();
 		w.flush();
 		m = r.readLine();
-		out.println(m);
+//		out.println(m);
 		// for checking the correctness of from address
 		if (!m.equals("250 2.1.5 Ok")) {
 			out.println("Error in To Part");
@@ -143,7 +143,7 @@ public class SMTPClient {
 		// w.write("\r\n"); // end header
 		w.flush();
 		String m1 = r.readLine();
-		out.println(m1);
+//		out.println(m1);
 
 		// send header As a part of Message
 		w.write("From: " + from + "\r\n");
@@ -160,7 +160,7 @@ public class SMTPClient {
 		w.flush();
 
 		m = r.readLine();
-		out.println(m);
+//		out.println(m);
 			if (!m.regionMatches(0, "250 2.0.0 Ok", 0, 7)) {
 			out.println("Error in Body");
 			return m;
