@@ -132,7 +132,7 @@ public class StateManager {
 				deliveryReport_Delivery = SMTPClient.sendEmail(deliveryReportEmail);
 				log.info(threadID + "Delivery Report Status: " + deliveryReport_Delivery);
 			} catch (UnknownHostException e) {
-				originalEmail.set_deliveryStatus("Delivery Report couldn't be sent.");
+				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus()+"<br/>Delivery Report couldn't be sent.");
 			} catch (IOException e) {
 				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus()+"<br/>Delivery Report couldn't be sent because SMTP timedout.");
 //				e.printStackTrace();

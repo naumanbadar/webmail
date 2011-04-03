@@ -27,7 +27,7 @@ public class SMTPClient {
 		// Isolate the domain/machine name and get a list of mail exchangers
 		String domain = hostName.substring(++pos);
 
-		Hashtable env = new Hashtable();
+		Hashtable<String, String> env = new Hashtable<String, String>();
 		env.put("java.naming.factory.initial",
 				"com.sun.jndi.dns.DnsContextFactory");
 		DirContext ictx = new InitialDirContext(env);
