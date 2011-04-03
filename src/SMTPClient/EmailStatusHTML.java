@@ -15,11 +15,11 @@ public class EmailStatusHTML {
 		htmlData.append("<BODY>");
 		
 		htmlData.append("<table style =\"color: #a52a2a\" border = 2 cellspacing = 1 cellpadding = 5 bgcolor = \"ffcc00\" bordercolor = \"ffffff\">");
-		htmlData.append("<tr align = center><td>From</td<td>To</td><td>Subject</td><td>Sent Time</td><td>Delivered Time</td></tr>");
+		htmlData.append("<tr align = center><td>From</td<td>To</td><td>Subject</td><td>Submission Time</td><td>Expected Delivery Time</td><td>Delivery Status</td></tr>");
 		
 for (Email email : emailList) {
 			
-			htmlData.append("<tr><td>"+email.get_from()+"</td><td>"+email.get_to()+"</td><td>"+email.get_originalSubject()+"</td><td>"+email.getSubmissionTimeString()+"</td><td>"+email.getDeliveryTimeString()+"</td><td>"+email.get_deliveryStatus()+"</td></tr>");
+			htmlData.append("<tr><td>"+email.get_from()+"</td><td>"+email.get_to()+"</td><td>"+email.get_originalSubject()+"</td><td align = right>"+email.getSubmissionTimeString()+"</td><td align = right>"+email.getDeliveryTimeString()+"</td><td>"+email.get_deliveryStatus()+"</td></tr>");
 			
 		}
 		
