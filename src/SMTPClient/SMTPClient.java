@@ -65,7 +65,7 @@ public class SMTPClient {
 		
 //		out.println(smtpServerFromEmail);
 		Socket c = new Socket(smtpServerFromEmail, 25);
-
+c.setSoTimeout(3000);
 		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(
 				c.getOutputStream()));
 		BufferedReader r = new BufferedReader(new InputStreamReader(
