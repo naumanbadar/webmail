@@ -41,7 +41,7 @@ public class PostHandler {
 			
 			if (!FormatChecker.checkEmailFormat(toAddress)||!FormatChecker.checkEmailFormat(fromAddress)||!FormatChecker.checkDelayFormat(delay)) {
 				outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
-				outputPrintWriter.println("<HTML><HEAD><TITLE>Error in input fields</TITLE></HEAD><BODY bgcolor=\"#ff9900\"><H1>Please check email delay format.</H1></BODY></HTML>");
+				outputPrintWriter.println("<HTML><HEAD><TITLE>Error in input fields</TITLE></HEAD><BODY bgcolor=\"#ff9900\"><H1>Please check email and delay format.</H1></BODY></HTML>");
 				return;
 				
 			}

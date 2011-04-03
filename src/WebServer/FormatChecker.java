@@ -22,7 +22,7 @@ public class FormatChecker {
 	}
 
 	public static boolean checkDelayFormat(String delay) {
-		if (Pattern.matches(delay, "\\d*")) {
+		if (Pattern.matches( "\\d*",delay)) {
 			return true;
 		}
 		return false;

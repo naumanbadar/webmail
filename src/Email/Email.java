@@ -46,11 +46,10 @@ public class Email {
 		this._message = _message;
 
 		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:ss");
 
-		_submissionTime = sdf.format(calendar.getTime());
+		_submissionTime = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY))+":"+Integer.toString(calendar.get(Calendar.MINUTE))+":"+Integer.toString(calendar.get(Calendar.SECOND));
 		calendar.add(Calendar.SECOND, _delay);
-		_deliveryTime = sdf.format(calendar.getTime());
+		_deliveryTime = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY))+":"+Integer.toString(calendar.get(Calendar.MINUTE))+":"+Integer.toString(calendar.get(Calendar.SECOND));
 		_deliveryStatus = "PENDING";
 	}
 
