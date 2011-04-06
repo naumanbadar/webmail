@@ -36,7 +36,8 @@ public class PostHandler {
 
 			String toAddress = URLDecoder.decode(fields[2],"UTF-8");
 			String fromAddress = URLDecoder.decode(fields[1],"UTF-8");
-			String delay = fields[5];
+//			String delay = fields[5];
+			String delay = (fields[5].isEmpty())?"0":fields[5];
 			
 			if (!FormatChecker.checkEmailFormat(toAddress)||!FormatChecker.checkEmailFormat(fromAddress)||!FormatChecker.checkDelayFormat(delay)) {
 				outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
