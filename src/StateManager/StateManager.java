@@ -90,10 +90,17 @@ public class StateManager {
 				log.info(threadID + "Original Mail delivery has succeeded");
 				originalEmail.set_deliveryStatus("SUCCESSFULLY DELIVERED");
 				sendDeliveryReport(DELIVERY_STATUS.SUCCESS);
-			} else if (Pattern.matches(".*Recipient address rejected.*", smtpReponse)) {
+			} 
+			
+			else if (Pattern.matches(".*Recipient address rejected.*", smtpReponse)) {
 				log.info(threadID + "Original Mail delivery has fialed due to wrong rcpt address");
 				originalEmail.set_deliveryStatus("Delivery Failed due to unknown RCPT");
 				sendDeliveryReport(DELIVERY_STATUS.UNKNOWN_RCPT);
+			}
+			else if (Pattern.matches(".*Sender address rejected: Domain not found.*", smtpReponse)) {
+				log.info(threadID + "Original Mail delivery has fialed due to wrong domain in sender address");
+				originalEmail.set_deliveryStatus("Delivery Failed due to wrong domain in sender address");
+				sendDeliveryReport(DELIVERY_STATUS.UNKNOWN_SENDER_DOMAIN);
 			}
 
 			else {
@@ -134,11 +141,16 @@ public class StateManager {
 					// log.info("about to send DNS failure delivery report");
 					deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message couldn't be delivered to " + originalEmail.get_to() + " REASON: Either domain is not correct or SMTP didn't respond in time." + "=0D=0A" + originalEmail.get_message());
 					break;
-					
 				case UNKNOWN_RCPT:
 					// log.info("about to send DNS failure delivery report");
 					deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message couldn't be delivered to " + originalEmail.get_to() + " REASON: Receipient is unknown to server." + "=0D=0A" + originalEmail.get_message());
 					break;
+					
+				case UNKNOWN_SENDER_DOMAIN:
+					// log.info("about to send DNS failure delivery report");
+					deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message couldn't be delivered to " + originalEmail.get_to() + " REASON: Error in sender domain." + "=0D=0A" + originalEmail.get_message());
+					break;
+					
 					
 				default:
 					break;
@@ -156,7 +168,7 @@ public class StateManager {
 				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus() + "<br/>Delivery Report couldn't be sent because SMTP timedout.");
 				// e.printStackTrace();
 			} catch (NamingException e) {
-				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus() + "<br/>DNS lookup of return address domain for delivery report also failed");
+				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus() + "<br/>DNS lookup of return address domain for delivery report also failed.");
 			}
 		}
 	}
