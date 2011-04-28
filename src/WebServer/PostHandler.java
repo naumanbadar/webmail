@@ -36,7 +36,6 @@ public class PostHandler {
 
 			String toAddress = URLDecoder.decode(fields[2],"UTF-8");
 			String fromAddress = URLDecoder.decode(fields[1],"UTF-8");
-//			String delay = fields[5];
 			String delay = (fields[5].isEmpty())?"0":fields[5];
 			
 			if (!FormatChecker.checkEmailFormat(toAddress)||!FormatChecker.checkEmailFormat(fromAddress)||!FormatChecker.checkDelayFormat(delay)) {
@@ -49,17 +48,10 @@ public class PostHandler {
 			Email email = new Email(toAddress,fromAddress, QPEncoder.encode(URLDecoder.decode(" "+fields[3],"UTF-8")), URLDecoder.decode(fields[4],"UTF-8"), Integer.parseInt(delay),QPEncoder.encode(URLDecoder.decode(fields[6],"UTF-8")));
 			email.set_originalSubject(URLDecoder.decode(fields[3],"UTF-8"));
 			
-//			email.set_from(URLDecoder.decode(fields[1],"UTF-8"));
-//			email.set_to(URLDecoder.decode(fields[2],"UTF-8"));
-//			email.set_subject(URLDecoder.decode(fields[3],"UTF-8"));
-//			email.set_smtpServer(URLDecoder.decode(fields[4],"UTF-8"));
-//			email.set_delay(Integer.parseInt(fields[5]));
-//			email.set_message(URLDecoder.decode(fields[6],"UTF-8"));
 			
 			
 			log.info("email posted: "+email.toString());
 			
-//			log.info(SMTPClient.sendEmail(email));
 			StateManager stateManager  = StateManager.INSTANCE;
 			stateManager.sendEmail(email);
 			

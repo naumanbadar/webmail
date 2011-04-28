@@ -19,7 +19,7 @@ public class Email {
 	private String _submissionTime;
 	private String _deliveryTime;
 	private String _deliveryStatus;
-	
+
 	private String _originalSubject;
 
 	/**
@@ -35,50 +35,17 @@ public class Email {
 		this._from = _from;
 		this._to = _to;
 		this._subject = _subject;
-//		if (smtpServer.isEmpty()) {
-//			this._smtpServer = "smtp.ik2213.lab";
-//		} else {
-			this._smtpServer = smtpServer;
-//		}
-
+		this._smtpServer = smtpServer;
 		this._delay = _delay;
 		this._message = _message;
 
 		Calendar calendar = Calendar.getInstance();
 
-		_submissionTime = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY))+":"+Integer.toString(calendar.get(Calendar.MINUTE))+":"+Integer.toString(calendar.get(Calendar.SECOND));
+		_submissionTime = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY)) + ":" + Integer.toString(calendar.get(Calendar.MINUTE)) + ":" + Integer.toString(calendar.get(Calendar.SECOND));
 		calendar.add(Calendar.SECOND, _delay);
-		_deliveryTime = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY))+":"+Integer.toString(calendar.get(Calendar.MINUTE))+":"+Integer.toString(calendar.get(Calendar.SECOND));
+		_deliveryTime = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY)) + ":" + Integer.toString(calendar.get(Calendar.MINUTE)) + ":" + Integer.toString(calendar.get(Calendar.SECOND));
 		_deliveryStatus = "PENDING";
 	}
-
-	// public Email() {
-	//
-	// // _submissionTime = Calendar.getInstance();
-	//
-	// }
-
-	/**
-	 * @return the _submissionTime
-	 */
-	// public String get_submissionTime() {
-	// return _submissionTime;
-	// }
-
-	/**
-	 * @param _submissionTime
-	 *            the _submissionTime to set
-	 */
-	// public void set_submissionTime(Calendar _submissionTime) {
-	// this._submissionTime = _submissionTime;
-	// }
-
-	/**
-	 * @return the _deliveryTime
-	 */
-	// public String get_deliveryTime() {
-	// return _deliveryTime;
-	// }
 
 	/**
 	 * @param _deliveryTime
@@ -110,13 +77,6 @@ public class Email {
 		return _from;
 	}
 
-	/**
-	 * @param _from
-	 *            the _from to set
-	 */
-	// public void set_from(String _from) {
-	// this._from = _from;
-	// }
 
 	/**
 	 * @return the _to
@@ -125,14 +85,6 @@ public class Email {
 		return _to;
 	}
 
-	// /**
-	// * @param _to
-	// * the _to to set
-	// */
-	// public void set_to(String _to) {
-	// this._to = _to;
-	// }
-
 	/**
 	 * @return the _subject
 	 */
@@ -140,13 +92,6 @@ public class Email {
 		return _subject;
 	}
 
-	/**
-	 * @param _subject
-	 *            the _subject to set
-	 */
-	// public void set_subject(String _subject) {
-	// this._subject = _subject;
-	// }
 
 	/**
 	 * @return the _smtpServer
@@ -159,9 +104,9 @@ public class Email {
 	 * @param _smtpServer
 	 *            the _smtpServer to set
 	 */
-	 public void set_smtpServer(String _smtpServer) {
-	 this._smtpServer = _smtpServer;
-	 }
+	public void set_smtpServer(String _smtpServer) {
+		this._smtpServer = _smtpServer;
+	}
 
 	/**
 	 * @return the _delay
@@ -170,13 +115,6 @@ public class Email {
 		return _delay;
 	}
 
-	/**
-	 * @param _delay
-	 *            the _delay to set
-	 */
-	// public void set_delay(int _delay) {
-	// this._delay = _delay;
-	// }
 
 	/**
 	 * @return the _message
@@ -185,13 +123,6 @@ public class Email {
 		return _message;
 	}
 
-	/**
-	 * @param _message
-	 *            the _message to set
-	 */
-	// public void set_message(String _message) {
-	// this._message = _message;
-	// }
 
 	@Override
 	public String toString() {
@@ -199,14 +130,10 @@ public class Email {
 	}
 
 	public String getSubmissionTimeString() {
-		// SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:ss");
-		// return sdf.format(_submissionTime.getTime());
 		return _submissionTime;
 	}
 
 	public String getDeliveryTimeString() {
-		// SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:ss");
-		// return sdf.format(_deliveryTime.getTime());
 		return _deliveryTime;
 	}
 

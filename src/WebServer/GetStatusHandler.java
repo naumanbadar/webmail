@@ -26,7 +26,6 @@ public class GetStatusHandler {
 		String statusString = EmailStatusHTML.spitHTML(stateManager.getEmailList());
 		
 		outputPrintWriter.println("HTTP/1.1 200 OK\r\n");
-//		outputPrintWriter.println("<HTML><HEAD><TITLE>Hello from MANEN</TITLE></HEAD><BODY><H1>Pay your bill.</H1></BODY></HTML>");
 		outputPrintWriter.print(statusString);
 	}
 

@@ -115,20 +115,10 @@ public class StateManager {
 				Email deliveryReportEmail = new Email("naumanb@mail.ik2213.lab", "noneofswitchworked@mail.ik2213.lab", "", "", 0, "");
 				switch (deliveryStatus) {
 				case SUCCESS:
-					// deliveryReportEmail = new Email(originalEmail.get_from(),
-					// "noreply@mail.ik2213.lab",QPEncoder.encode(" SUCCESS NOTICE: "
-					// + originalEmail.get_originalSubject()), "", 0,
-					// smtpReponse +
-					// " " + originalEmail.get_message());
 					deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" SUCCESS NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message has been successfully delivered to " + originalEmail.get_to() + "=0D=0A" + originalEmail.get_message());
 					break;
 
 				case FAILURE:
-					// deliveryReportEmail = new Email(originalEmail.get_from(),
-					// "noreply@mail.ik2213.lab",QPEncoder.encode(" FAILURE NOTICE: "
-					// + originalEmail.get_originalSubject()), "", 0,
-					// smtpReponse +
-					// " " + originalEmail.get_message());
 					deliveryReportEmail = new Email(originalEmail.get_from(), "noreply@mail.ik2213.lab", QPEncoder.encode(" FAILURE NOTICE: " + originalEmail.get_originalSubject()), SMTPClient.doLookup(originalEmail.get_from()), 0, "The following message couldn't be delivered to " + originalEmail.get_to() + " REASON: " + smtpReponse + "=0D=0A" + originalEmail.get_message());
 					break;
 
@@ -166,7 +156,6 @@ public class StateManager {
 				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus() + "<br/>Delivery Report couldn't be sent.");
 			} catch (IOException e) {
 				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus() + "<br/>Delivery Report couldn't be sent because SMTP timedout.");
-				// e.printStackTrace();
 			} catch (NamingException e) {
 				originalEmail.set_deliveryStatus(originalEmail.get_deliveryStatus() + "<br/>DNS lookup of return address domain for delivery report also failed.");
 			}

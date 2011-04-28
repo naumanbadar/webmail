@@ -24,24 +24,14 @@ public class Listener {
 	public String start() {
 		try {
 
-			// char charb[]= new char[2000];
 			serverSocket = new ServerSocket(8081);
 
 			Socket clientSocket = serverSocket.accept();
 			BufferedReader inputBufferReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			PrintWriter outputPrintWriter = new PrintWriter(clientSocket.getOutputStream());
-			// while
-			// (inputStringBuilder.append(iputBufferReader.readLine()).length()<2000)
-			// {
 			String requestHeader;
-			// while ((inputString=iputBufferReader.readLine())!=null) {
-			// inputStringBuilder.append(inputString);
-			// // Pattern.matches("", input)
-			// }
 			requestHeader = inputBufferReader.readLine();
 
-			// this is just to get all the lines after header untill an empty
-			// line is not received.
 			StringBuilder completeHeader = new StringBuilder(requestHeader + "\r\n");
 			String readline;
 			while ((readline = inputBufferReader.readLine()) != "") { // to
@@ -67,13 +57,11 @@ public class Listener {
 //				log.info("GET STATUS");
 			}
 
-			// ipbuff.read(charb);
 			outputPrintWriter.close();
 			inputBufferReader.close();
 			serverSocket.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
